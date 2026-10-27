@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced RNG & Order Book Trading Bot</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="main-header">
+            <div class="logo">⚡ ALGO-SIM v3.0</div>
+            <div class="status-badge">● LIVE MARKET SIMULATOR</div>
+        </header>
+
+        <!-- Main Layout Split -->
+        <div class="main-layout">
+            <!-- Left Panel: Controls -->
+            <aside class="control-panel">
+                <div class="panel-section">
+                    <h3>Account Parameters</h3>
+                    <div class="control-group">
+                        <label for="balance-input">Starting Balance ($)</label>
+                        <input type="number" id="balance-input" value="10000" min="100">
+                    </div>
+                    <div class="stat-row">
+                        <span>Current Balance:</span>
+                        <strong id="current-balance" class="profit">$10,000.00</strong>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Execution Math (RNG)</h3>
+                    <div class="control-group">
+                        <label>Win Chance: <span id="win-chance-val">50</span>%</label>
+                        <input type="range" id="win-chance-slider" min="1" max="99" value="50">
+                    </div>
+                    <div class="control-group">
+                        <label>Profit Target (Points): <span id="profit-target-val">15</span></label>
+                        <input type="range" id="profit-target-slider" min="5" max="100" value="15">
+                    </div>
+                    <div class="control-group">
+                        <label>Risk-to-Reward Ratio: <span id="rr-val">1:2.0</span></label>
+                        <input type="range" id="rr-slider" min="0.5" max="5" step="0.1" value="2">
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <h3>Risk Management</h3>
+                    <div class="control-group">
+                        <label>Leverage: <span id="leverage-val">1</span>x</label>
+                        <input type="range" id="leverage-slider" min="1" max="20" value="1">
+                    </div>
+                    <div class="control-group">
+                        <label for="order-type">Order Type</label>
+                        <select id="order-type">
+                            <option value="market">Market Order (Instant)</option>
+                            <option value="limit">Limit Order (Target-bound)</option>
+                        </select>
+                    </div>
+                    <div id="limit-price-group" class="control-group hidden">
+                        <label for="limit-price-input">Limit Entry Price</label>
+                        <input type="number" id="limit-price-input" value="100" step="0.5">
+                    </div>
+                    <button id="trigger-trade-btn" class="btn-primary">Execute Trade Setup</button>
+                </div>
+            </aside>
+
+            <!-- Center Panel: Charts & Logs -->
+            <main class="center-content">
+                <div class="chart-container">
+                    <canvas id="tradingChart"></canvas>
+                </div>
+                
+                <div class="log-container">
+                    <h3>Live Trade Ledger</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Type</th>
+                                    <th>Order</th>
+                                    <th>Entry</th>
+                                    <th>Outcome</th>
+                                    <th>P&L ($)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="trade-log-body">
+                                <!-- Dynamic Rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Panel: Order Book -->
+            <aside class="order-book-panel">
+                <h3>Simulated Order Book</h3>
+                <div class="ob-section asks">
+                    <h4>Asks (Sells)</h4>
+                    <div class="ob-header"><span>Price</span><span>Size</span></div>
+                    <div id="asks-list"></div>
+                </div>
+                <div class="ob-spread-bar">
+                    Spread: <span id="ob-spread">$0.15</span>
+                </div>
+                <div class="ob-section bids">
+                    <h4>Bids (Buys)</h4>
+                    <div class="ob-header"><span>Price</span><span>Size</span></div>
+                    <div id="bids-list"></div>
+                </div>
+            </aside>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
